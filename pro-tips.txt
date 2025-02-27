@@ -1,0 +1,42 @@
+Extra pro tip, dev builds dont work with long path names, so this project needs to live at D:\
+
+
+1. to build an android .APK:
+
+cd into ./android
+run: gradlew assembleRelease
+
+--
+
+2. To dev build on phone:
+
+- plug in usb to real phone
+- npx expo run:android
+
+
+
+3. EAS build:
+
+commands:
+- eas login (this is to login)
+- eas whoami (this shows current account logged in)
+- eas build:configure (will set it up, already did this, check eas.json)
+- eas build --platform android (will build on the cloud https://expo.dev/accounts/kpow_636/projects/time-in-progress-app)
+
+
+4. To ping the local python servver from mobile app that is not connect to the project:
+
+- in ./android\app\src\main\AndroidManifest.xml  .. put android:usesCleartextTraffic="true" in the <application android:usesCleartextTraffic="true"> tag
+- Reason, the built APK cant ping http by design, it can only ping https, so either connect the phone to the PC via USB and we can ping it just fine, or
+- add the above tag to application and then build the apk, then install the apk and it can ping http
+
+
+EXTRA INFO:
+
+
+Known issues:
+
+React-native-google-ad-mob currently has build issues, the app crashes when trying to build, to temp fix this:
+https://github.com/invertase/react-native-google-mobile-ads/issues/701
+we need to copy two files from this commit: https://github.com/stage88/react-native-google-mobile-ads/commit/8d4a2a03e36546ec05fc67560371731f79f05281
+into our node_modules for react-native-google-ad-mob, and make sure the plugins are added to the app.config and not in the app.json, because the plugs in app.config will overwrite app.json plugins key
